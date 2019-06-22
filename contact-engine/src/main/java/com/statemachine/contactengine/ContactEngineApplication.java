@@ -6,6 +6,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.Message;
 import org.springframework.statemachine.StateContext;
 import org.springframework.statemachine.StateMachine;
 import org.springframework.statemachine.action.Action;
@@ -180,8 +181,15 @@ class ContactEngineStateMachineConfiguration extends StateMachineConfigurerAdapt
     public void configure(StateMachineConfigurationConfigurer<ContactStates, ContactEvents> config) throws Exception {
         StateMachineListenerAdapter<ContactStates, ContactEvents> adapter = new StateMachineListenerAdapter<ContactStates, ContactEvents>() {
             @Override
+            public void eventNotAccepted(Message<ContactEvents> event) {
+                log.info("Event not accepted : "+event.getPayload());
+            }
+            @Override
             public void stateChanged(State<ContactStates, ContactEvents> from, State<ContactStates, ContactEvents> to) {
-                log.info("State Changed from : "+from.toString()+" to :"+to.toString());
+                if(from!=null)
+                    log.info("State Changed from : "+from.toString()+" to :"+to.toString());
+                else
+                    log.info("Contact State Initialized to :"+to.toString());
             }
         };
         config.withConfiguration()
