@@ -113,11 +113,23 @@ class ContactEngineStateMachineConfiguration extends StateMachineConfigurerAdapt
                 .stateEntry(ContactStates.INTEREST_SENT, new Action<ContactStates, ContactEvents>() {
                     @Override
                     public void execute(StateContext<ContactStates, ContactEvents> context) {
+                        log.info("Checks to be performed before event : "+ContactEvents.SEND_INTEREST);
+                    }
+                })
+                .stateExit(ContactStates.INTEREST_SENT, new Action<ContactStates, ContactEvents>() {
+                    @Override
+                    public void execute(StateContext<ContactStates, ContactEvents> context) {
                         log.info("Actions to be performed after event : "+ContactEvents.SEND_INTEREST);
                     }
                 })
                 .state(ContactStates.INTEREST_ACCEPTED)
                 .stateEntry(ContactStates.INTEREST_ACCEPTED, new Action<ContactStates, ContactEvents>() {
+                    @Override
+                    public void execute(StateContext<ContactStates, ContactEvents> context) {
+                        log.info("Checks to be performed before event : "+ContactEvents.ACCEPT_INTEREST);
+                    }
+                })
+                .stateExit(ContactStates.INTEREST_ACCEPTED, new Action<ContactStates, ContactEvents>() {
                     @Override
                     public void execute(StateContext<ContactStates, ContactEvents> context) {
                         log.info("Actions to be performed after event : "+ContactEvents.ACCEPT_INTEREST);
@@ -127,6 +139,12 @@ class ContactEngineStateMachineConfiguration extends StateMachineConfigurerAdapt
                 .stateEntry(ContactStates.INTEREST_DECLINED, new Action<ContactStates, ContactEvents>() {
                     @Override
                     public void execute(StateContext<ContactStates, ContactEvents> context) {
+                        log.info("Checks to be performed before event : "+ContactEvents.DECLINE_INTEREST);
+                    }
+                })
+                .stateExit(ContactStates.INTEREST_DECLINED, new Action<ContactStates, ContactEvents>() {
+                    @Override
+                    public void execute(StateContext<ContactStates, ContactEvents> context) {
                         log.info("Actions to be performed after event : "+ContactEvents.DECLINE_INTEREST);
                     }
                 })
@@ -134,11 +152,23 @@ class ContactEngineStateMachineConfiguration extends StateMachineConfigurerAdapt
                 .stateEntry(ContactStates.INTEREST_CANCELLED, new Action<ContactStates, ContactEvents>() {
                     @Override
                     public void execute(StateContext<ContactStates, ContactEvents> context) {
+                        log.info("Checks to be performed before event : "+ContactEvents.CANCEL_INTEREST);
+                    }
+                })
+                .stateExit(ContactStates.INTEREST_CANCELLED, new Action<ContactStates, ContactEvents>() {
+                    @Override
+                    public void execute(StateContext<ContactStates, ContactEvents> context) {
                         log.info("Actions to be performed after event : "+ContactEvents.CANCEL_INTEREST);
                     }
                 })
                 .state(ContactStates.INTEREST_CANCELLED_BEFORE_ACCEPTANCE)
                 .stateEntry(ContactStates.INTEREST_CANCELLED_BEFORE_ACCEPTANCE, new Action<ContactStates, ContactEvents>() {
+                    @Override
+                    public void execute(StateContext<ContactStates, ContactEvents> context) {
+                        log.info("Checks to be performed before event : "+ContactEvents.CANCEL_BEFORE_ACCEPTANCE);
+                    }
+                })
+                .stateExit(ContactStates.INTEREST_CANCELLED_BEFORE_ACCEPTANCE, new Action<ContactStates, ContactEvents>() {
                     @Override
                     public void execute(StateContext<ContactStates, ContactEvents> context) {
                         log.info("Actions to be performed after event : "+ContactEvents.CANCEL_BEFORE_ACCEPTANCE);
