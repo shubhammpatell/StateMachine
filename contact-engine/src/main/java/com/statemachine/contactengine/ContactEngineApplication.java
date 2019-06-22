@@ -6,7 +6,9 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.statemachine.StateContext;
 import org.springframework.statemachine.StateMachine;
+import org.springframework.statemachine.action.Action;
 import org.springframework.statemachine.config.EnableStateMachineFactory;
 import org.springframework.statemachine.config.StateMachineConfigurerAdapter;
 import org.springframework.statemachine.config.StateMachineFactory;
@@ -108,10 +110,40 @@ class ContactEngineStateMachineConfiguration extends StateMachineConfigurerAdapt
                 .withStates()
                 .initial(ContactStates.NO_CONTACT_STATE)
                 .state(ContactStates.INTEREST_SENT)
+                .stateEntry(ContactStates.INTEREST_SENT, new Action<ContactStates, ContactEvents>() {
+                    @Override
+                    public void execute(StateContext<ContactStates, ContactEvents> context) {
+                        log.info("Actions to be performed after event : "+ContactEvents.SEND_INTEREST);
+                    }
+                })
                 .state(ContactStates.INTEREST_ACCEPTED)
+                .stateEntry(ContactStates.INTEREST_ACCEPTED, new Action<ContactStates, ContactEvents>() {
+                    @Override
+                    public void execute(StateContext<ContactStates, ContactEvents> context) {
+                        log.info("Actions to be performed after event : "+ContactEvents.ACCEPT_INTEREST);
+                    }
+                })
                 .state(ContactStates.INTEREST_DECLINED)
+                .stateEntry(ContactStates.INTEREST_DECLINED, new Action<ContactStates, ContactEvents>() {
+                    @Override
+                    public void execute(StateContext<ContactStates, ContactEvents> context) {
+                        log.info("Actions to be performed after event : "+ContactEvents.DECLINE_INTEREST);
+                    }
+                })
                 .state(ContactStates.INTEREST_CANCELLED)
-                .state(ContactStates.INTEREST_CANCELLED_BEFORE_ACCEPTANCE);
+                .stateEntry(ContactStates.INTEREST_CANCELLED, new Action<ContactStates, ContactEvents>() {
+                    @Override
+                    public void execute(StateContext<ContactStates, ContactEvents> context) {
+                        log.info("Actions to be performed after event : "+ContactEvents.CANCEL_INTEREST);
+                    }
+                })
+                .state(ContactStates.INTEREST_CANCELLED_BEFORE_ACCEPTANCE)
+                .stateEntry(ContactStates.INTEREST_CANCELLED_BEFORE_ACCEPTANCE, new Action<ContactStates, ContactEvents>() {
+                    @Override
+                    public void execute(StateContext<ContactStates, ContactEvents> context) {
+                        log.info("Actions to be performed after event : "+ContactEvents.CANCEL_BEFORE_ACCEPTANCE);
+                    }
+                });
     }
 
     @Override
