@@ -1,6 +1,6 @@
 package com.statemachine.contactengine;
 
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
@@ -48,7 +48,7 @@ enum ContactStates {
 
 }
 
-@Log
+@Slf4j
 @Component
 class Runner implements ApplicationRunner{
 
@@ -80,7 +80,7 @@ class Runner implements ApplicationRunner{
     }
 }
 
-@Log
+@Slf4j
 @Configuration
 @EnableStateMachineFactory
 class ContactEngineStateMachineConfiguration extends StateMachineConfigurerAdapter<ContactStates, ContactEvents> {
@@ -182,7 +182,7 @@ class ContactEngineStateMachineConfiguration extends StateMachineConfigurerAdapt
         StateMachineListenerAdapter<ContactStates, ContactEvents> adapter = new StateMachineListenerAdapter<ContactStates, ContactEvents>() {
             @Override
             public void eventNotAccepted(Message<ContactEvents> event) {
-                log.info("Event not accepted : "+event.getPayload());
+                log.error("Event not accepted : "+event.getPayload());
             }
             @Override
             public void stateChanged(State<ContactStates, ContactEvents> from, State<ContactStates, ContactEvents> to) {
